@@ -10,6 +10,7 @@ coverage
 .sanity-dev.*.log
 *.tsbuildinfo
 .codex
+.sanity
 .tools
 .open-next
 .wrangler
