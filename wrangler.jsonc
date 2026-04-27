@@ -13,7 +13,7 @@
   },
   "vars": {
     "NEXT_PUBLIC_SITE_URL": "https://themellow-cake-site.stanlyparkk.workers.dev",
-    "NEXT_PUBLIC_SANITY_PROJECT_ID": "ns3hcub0",
+    "NEXT_PUBLIC_SANITY_PROJECT_ID": "wljn7pk9",
     "NEXT_PUBLIC_SANITY_DATASET": "production",
     "NEXT_PUBLIC_SANITY_API_VERSION": "2025-02-19"
   }

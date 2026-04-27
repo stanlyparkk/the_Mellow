@@ -1,5 +1,5 @@
 export const sanityProjectId =
-  process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "ns3hcub0";
+  process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "wljn7pk9";
 
 export const sanityDataset =
   process.env.NEXT_PUBLIC_SANITY_DATASET || "production";
