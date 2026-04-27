@@ -103,6 +103,7 @@ export const portfolioType = defineType({
       name: "gallery",
       title: "갤러리 이미지",
       type: "array",
+      description: "상세 페이지에 추가로 보여줄 이미지입니다. 대표 이미지만으로도 등록할 수 있습니다.",
       of: [
         defineArrayMember({
           type: "image",
@@ -119,13 +120,6 @@ export const portfolioType = defineType({
         }),
       ],
       hidden: ({ document }) => document?.mediaType !== "photo",
-      validation: (rule) =>
-        rule.custom((value, context) => {
-          if (context.document?.mediaType === "photo" && (!value || value.length < 2)) {
-            return "사진 작업물에는 최소 2장의 갤러리가 필요합니다.";
-          }
-          return true;
-        }),
     }),
     defineField({
       name: "primaryCategory",
