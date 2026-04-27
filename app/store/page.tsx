@@ -10,9 +10,45 @@ export const metadata: Metadata = buildMetadata({
   path: "/store",
 });
 
+function getNaverMapUrl(url?: string) {
+  if (!url) {
+    return null;
+  }
+
+  try {
+    const parsed = new URL(url);
+    const placeId = parsed.pathname.match(/place\/(\d+)/)?.[1];
+
+    if (!placeId) {
+      return url;
+    }
+
+    const params = new URLSearchParams({
+      placePath: "/home",
+      entry: "plt",
+      searchType: "place",
+    });
+    const lng = parsed.searchParams.get("lng");
+    const lat = parsed.searchParams.get("lat");
+
+    if (lng) {
+      params.set("lng", lng);
+    }
+
+    if (lat) {
+      params.set("lat", lat);
+    }
+
+    return `https://map.naver.com/p/entry/place/${placeId}?${params.toString()}`;
+  } catch {
+    return url;
+  }
+}
+
 export default async function StorePage() {
   const settings = await getSiteSettings();
   const hours = settings.businessHours?.filter((item) => item.day && item.hours) || [];
+  const naverMapUrl = getNaverMapUrl(settings.naverMapUrl);
 
   return (
     <div className="page-shell">
@@ -26,10 +62,10 @@ export default async function StorePage() {
         noWrapDesktop={false}
       />
 
-      {settings.naverMapUrl ? (
+      {naverMapUrl ? (
         <div className="mt-12 overflow-hidden rounded-[1.25rem] border border-stone/15 bg-white shadow-soft">
           <iframe
-            src={settings.naverMapUrl}
+            src={naverMapUrl}
             title="더멜로우 네이버 지도"
             className="h-[420px] w-full"
             loading="lazy"
@@ -46,9 +82,9 @@ export default async function StorePage() {
               <p className="mt-5 text-base leading-8 text-stone/70">{settings.directionInfo}</p>
             ) : null}
             <div className="mt-6 flex flex-wrap gap-3">
-              {settings.naverMapUrl ? (
+              {naverMapUrl ? (
                 <a
-                  href={settings.naverMapUrl}
+                  href={naverMapUrl}
                   target="_blank"
                   rel="noreferrer"
                   className="gold-button"

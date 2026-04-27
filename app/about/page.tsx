@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { PageIntro } from "@/components/ui/page-intro";
 import { PortableImage } from "@/components/ui/portable-image";
-import { getPortfolioItems, getSiteSettings } from "@/lib/sanity/fetchers";
+import { getSiteSettings } from "@/lib/sanity/fetchers";
 import { buildMetadata } from "@/lib/utils";
 
 export const metadata: Metadata = buildMetadata({
@@ -12,14 +12,7 @@ export const metadata: Metadata = buildMetadata({
 });
 
 export default async function AboutPage() {
-  const [settings, portfolios] = await Promise.all([
-    getSiteSettings(),
-    getPortfolioItems(),
-  ]);
-
-  const highlighted = portfolios
-    .filter((item) => item.mediaType === "photo")
-    .slice(0, 2);
+  const settings = await getSiteSettings();
   const aboutHighlights =
     settings.aboutHighlights?.filter((item) => item.text?.trim()) || [];
 
@@ -49,20 +42,13 @@ export default async function AboutPage() {
           ) : null}
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2">
-          {highlighted.map((item, index) => (
-            <PortableImage
-              key={item._id}
-              image={item.coverImage}
-              alt={item.title}
-              priority={index === 0}
-              className={
-                index === 0
-                  ? "h-[420px] sm:col-span-2 sm:h-[560px]"
-                  : "h-[320px] transition duration-500 hover:-translate-y-1"
-              }
-            />
-          ))}
+        <div>
+          <PortableImage
+            image={settings.heroImage}
+            alt={`${settings.brandName} 대표 이미지`}
+            priority
+            className="h-[420px] sm:h-[560px]"
+          />
         </div>
       </div>
     </div>
